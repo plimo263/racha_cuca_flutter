@@ -1,16 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:racha_cuca_numeros/models/board_model.dart';
 
 import '../models/item.dart';
 import 'line_board.dart';
-
-final blankItem = Item('${Item.getLetter(15)}${15 + 1}', 15, true);
-
-final initSequence = List.generate(
-  15,
-  (index) => Item('${Item.getLetter(index)}${index + 1}', index),
-).toList();
 
 class Board extends StatefulWidget {
   const Board({super.key});
@@ -20,53 +14,17 @@ class Board extends StatefulWidget {
 }
 
 class _BoardState extends State<Board> {
-  List<Item> correctSequence = [...initSequence, blankItem];
-  List<Item> listItems = initSequence..shuffle();
-
+  final _boardModel = BoardModel();
   //
   @override
   void initState() {
     super.initState();
-    reorderList();
   }
 
   //
-  void reorderList() {
-    final newItems = <Item>[];
-    for (int i = 0; i < listItems.length; i++) {
-      listItems[i].position = i;
-      newItems.add(listItems[i]);
-    }
-    // Adicionando o item branco
-    newItems.add(blankItem);
-    listItems = newItems;
-  }
-
-  //
-  bool isSequenceValid() {
-    bool isEqual = true;
-    for (int i = 0; i < correctSequence.length; i++) {
-      if (correctSequence[i].id != listItems[i].id) {
-        isEqual = false;
-        break;
-      }
-    }
-    return isEqual;
-  }
-
-  //
-  void alterPosition(Item item) {
-    final itemBlank = listItems.firstWhere((Item item) => item.isBlank);
-
-    if (itemBlank.isSwapPosition(item.position)) {
-      // Vamos criar uma nova lista e reposicionar os itens
-      setState(() {
-        int newPosition = itemBlank.position;
-        int blankNewPosition = item.position;
-        item.position = newPosition;
-        itemBlank.position = blankNewPosition;
-        listItems.sort((a, b) => a.position < b.position ? -1 : 1);
-      });
+  void alterPositionItem(Item item) {
+    if (_boardModel.alterPosition(item)) {
+      setState(() {});
     }
   }
 
@@ -88,18 +46,34 @@ class _BoardState extends State<Board> {
           height: 68 * 4 + 18 + 16,
           child: Column(
             children: [
-              LineBoard(onTap: alterPosition, values: listItems.sublist(0, 4)),
-              LineBoard(onTap: alterPosition, values: listItems.sublist(4, 8)),
-              LineBoard(onTap: alterPosition, values: listItems.sublist(8, 12)),
-              LineBoard(onTap: alterPosition, values: listItems.sublist(12)),
+              LineBoard(
+                  onTap: alterPositionItem,
+                  values: _boardModel.listItems.sublist(0, 4)),
+              LineBoard(
+                  onTap: alterPositionItem,
+                  values: _boardModel.listItems.sublist(4, 8)),
+              LineBoard(
+                  onTap: alterPositionItem,
+                  values: _boardModel.listItems.sublist(8, 12)),
+              LineBoard(
+                  onTap: alterPositionItem,
+                  values: _boardModel.listItems.sublist(12)),
             ],
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Text(
-            isSequenceValid() ? 'Correto parabéns' : '',
-            style: textStyle,
+          child: SizedBox(
+            width: double.maxFinite,
+            height: 64,
+            child: FittedBox(
+              child: Text(
+                _boardModel.isSequenceValid()
+                    ? 'Correto parabéns para você'
+                    : '',
+                style: textStyle,
+              ),
+            ),
           ),
         ),
       ],
