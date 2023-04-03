@@ -5,7 +5,12 @@ import '../models/item.dart';
 class LineBoard extends StatelessWidget {
   final List<Item> values;
   final Function onTap;
-  const LineBoard({super.key, required this.values, required this.onTap});
+  final Color color;
+  const LineBoard(
+      {super.key,
+      required this.values,
+      required this.onTap,
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +22,7 @@ class LineBoard extends StatelessWidget {
               child: _ItemBoard(
                 value: e,
                 onTap: onTap,
+                color: color,
               ),
             ),
           )
@@ -28,10 +34,12 @@ class LineBoard extends StatelessWidget {
 class _ItemBoard extends StatelessWidget {
   final Item value;
   final Function onTap;
+  final Color color;
   const _ItemBoard({
     super.key,
     required this.value,
     required this.onTap,
+    required this.color,
   });
 
   @override
@@ -41,7 +49,7 @@ class _ItemBoard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: Material(
-        color: value.isBlank ? Colors.purple : Colors.white,
+        color: value.isBlank ? color : Colors.white,
         child: InkWell(
           onTap: () => onTap(value),
           child: Container(

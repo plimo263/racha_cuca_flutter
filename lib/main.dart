@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:racha_cuca_numeros/screens/home_screen.dart';
-import 'package:racha_cuca_numeros/screens/splash_scrren.dart';
+import 'package:racha_cuca_numeros/screens/splash_screen.dart';
 
 void main() {
   runApp(const MeuApp());

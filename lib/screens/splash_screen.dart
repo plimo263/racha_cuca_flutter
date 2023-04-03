@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
 
   Future<void> redirectToHome(BuildContext context) async {
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: ((inContext) => const HomeScreen())));
     });
   }
@@ -36,7 +36,7 @@ class SplashScreen extends StatelessWidget {
               child: AnimatedTextKit(
                 animatedTexts: [
                   TypewriterAnimatedText(
-                    'Racha-Cuca Números',
+                    'Racha-Cuca',
                     textStyle: GoogleFonts.play(
                       fontSize: 28,
                       color: Colors.white,

@@ -1,31 +1,71 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:racha_cuca_numeros/models/board_model.dart';
+import 'package:racha_cuca_numeros/widgets/timeboard.dart';
 
 import '../models/item.dart';
 import 'line_board.dart';
 
 class Board extends StatefulWidget {
-  const Board({super.key});
+  final _boardModel = BoardModel.reorderList();
+  Board({super.key});
 
   @override
   State<Board> createState() => _BoardState();
 }
 
 class _BoardState extends State<Board> {
-  final _boardModel = BoardModel();
   //
+  Color _color = Colors.blue;
+  int _seconds = 90;
+  bool _start = false;
+  late Timer timer;
+
   @override
   void initState() {
     super.initState();
+    //
+    timer = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (_start) {
+        setState(() {
+          if (_seconds > 0) {
+            _seconds--;
+          }
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   //
   void alterPositionItem(Item item) {
-    if (_boardModel.alterPosition(item)) {
+    if (widget._boardModel.alterPosition(item)) {
       setState(() {});
     }
+  }
+
+  // Obtem o estado do jogo
+  String getStateGame() {
+    String result = '';
+    if (widget._boardModel.isSequenceValid()) {
+      setState(() {
+        _start = false;
+      });
+      result = 'Correto parabéns para você';
+    } else if (_seconds == 0) {
+      result = 'Não foi desta vez, tente novamente';
+    } else {
+      result = '';
+    }
+    return result;
   }
 
   //
@@ -34,45 +74,77 @@ class _BoardState extends State<Board> {
     final textStyle = Theme.of(context).textTheme.displaySmall!.copyWith(
           color: Colors.green,
         );
+    const double heightBoard = 68 * 4 + 18 + 16;
+
     return Column(
       children: [
+        Timeboard(seconds: _seconds),
         Container(
           decoration: BoxDecoration(
-            color: Colors.purple,
+            color: _color,
             borderRadius: BorderRadius.circular(8),
           ),
           padding: const EdgeInsets.all(8),
           width: MediaQuery.of(context).size.width - 32,
-          height: 68 * 4 + 18 + 16,
+          height: heightBoard,
           child: Column(
             children: [
               LineBoard(
-                  onTap: alterPositionItem,
-                  values: _boardModel.listItems.sublist(0, 4)),
+                onTap: alterPositionItem,
+                values: widget._boardModel.listItems.sublist(0, 4),
+                color: _color,
+              ),
               LineBoard(
-                  onTap: alterPositionItem,
-                  values: _boardModel.listItems.sublist(4, 8)),
+                onTap: alterPositionItem,
+                values: widget._boardModel.listItems.sublist(4, 8),
+                color: _color,
+              ),
               LineBoard(
-                  onTap: alterPositionItem,
-                  values: _boardModel.listItems.sublist(8, 12)),
+                onTap: alterPositionItem,
+                values: widget._boardModel.listItems.sublist(8, 12),
+                color: _color,
+              ),
               LineBoard(
-                  onTap: alterPositionItem,
-                  values: _boardModel.listItems.sublist(12)),
+                onTap: alterPositionItem,
+                values: widget._boardModel.listItems.sublist(12),
+                color: _color,
+              ),
             ],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
           child: SizedBox(
             width: double.maxFinite,
             height: 64,
             child: FittedBox(
               child: Text(
-                _boardModel.isSequenceValid()
-                    ? 'Correto parabéns para você'
-                    : '',
+                getStateGame(),
                 style: textStyle,
               ),
+            ),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.only(top: 16),
+          width: double.maxFinite,
+          child: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.all(12),
+              backgroundColor: _color,
+            ),
+            onPressed: _start
+                ? null
+                : () {
+                    setState(() {
+                      _seconds = 90;
+                      _start = true;
+                    });
+                  },
+            icon: const Icon(Icons.gamepad),
+            label: Text(
+              'INICIAR JOGO !',
+              style: GoogleFonts.play(),
             ),
           ),
         ),
