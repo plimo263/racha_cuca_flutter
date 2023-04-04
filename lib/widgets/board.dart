@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:racha_cuca_numeros/models/board_model.dart';
 import 'package:racha_cuca_numeros/widgets/timeboard.dart';
@@ -10,8 +11,9 @@ import '../models/item.dart';
 import 'line_board.dart';
 
 class Board extends StatefulWidget {
+  final int seconds;
   final _boardModel = BoardModel.reorderList();
-  Board({super.key});
+  Board({super.key, required this.seconds});
 
   @override
   State<Board> createState() => _BoardState();
@@ -20,13 +22,16 @@ class Board extends StatefulWidget {
 class _BoardState extends State<Board> {
   //
   Color _color = Colors.blue;
-  int _seconds = 90;
+  late int _seconds = widget.seconds;
   bool _start = false;
   late Timer timer;
 
   @override
   void initState() {
     super.initState();
+
+    _seconds = widget.seconds;
+
     //
     timer = Timer.periodic(const Duration(seconds: 1), (t) {
       if (_start) {
@@ -47,8 +52,10 @@ class _BoardState extends State<Board> {
 
   //
   void alterPositionItem(Item item) {
-    if (widget._boardModel.alterPosition(item)) {
-      setState(() {});
+    if (_start) {
+      if (widget._boardModel.alterPosition(item)) {
+        setState(() {});
+      }
     }
   }
 
@@ -79,37 +86,44 @@ class _BoardState extends State<Board> {
     return Column(
       children: [
         Timeboard(seconds: _seconds),
-        Container(
-          decoration: BoxDecoration(
-            color: _color,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          padding: const EdgeInsets.all(8),
-          width: MediaQuery.of(context).size.width - 32,
-          height: heightBoard,
-          child: Column(
-            children: [
-              LineBoard(
-                onTap: alterPositionItem,
-                values: widget._boardModel.listItems.sublist(0, 4),
-                color: _color,
-              ),
-              LineBoard(
-                onTap: alterPositionItem,
-                values: widget._boardModel.listItems.sublist(4, 8),
-                color: _color,
-              ),
-              LineBoard(
-                onTap: alterPositionItem,
-                values: widget._boardModel.listItems.sublist(8, 12),
-                color: _color,
-              ),
-              LineBoard(
-                onTap: alterPositionItem,
-                values: widget._boardModel.listItems.sublist(12),
-                color: _color,
-              ),
-            ],
+        Animate(
+          effects: const [
+            ScaleEffect(
+              duration: Duration(milliseconds: 300),
+            )
+          ],
+          child: Container(
+            decoration: BoxDecoration(
+              color: _color,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            padding: const EdgeInsets.all(8),
+            width: MediaQuery.of(context).size.width - 32,
+            height: heightBoard,
+            child: Column(
+              children: [
+                LineBoard(
+                  onTap: alterPositionItem,
+                  values: widget._boardModel.listItems.sublist(0, 4),
+                  color: _color,
+                ),
+                LineBoard(
+                  onTap: alterPositionItem,
+                  values: widget._boardModel.listItems.sublist(4, 8),
+                  color: _color,
+                ),
+                LineBoard(
+                  onTap: alterPositionItem,
+                  values: widget._boardModel.listItems.sublist(8, 12),
+                  color: _color,
+                ),
+                LineBoard(
+                  onTap: alterPositionItem,
+                  values: widget._boardModel.listItems.sublist(12),
+                  color: _color,
+                ),
+              ],
+            ),
           ),
         ),
         Padding(
@@ -137,7 +151,6 @@ class _BoardState extends State<Board> {
                 ? null
                 : () {
                     setState(() {
-                      _seconds = 90;
                       _start = true;
                     });
                   },

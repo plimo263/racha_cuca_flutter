@@ -1,9 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:racha_cuca_numeros/screens/home_screen.dart';
 
 import '../constants/assets_const.dart';
+import '../theme/gradients.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -24,24 +26,34 @@ class SplashScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: AlignmentDirectional.topCenter,
             end: AlignmentDirectional.bottomCenter,
-            colors: [Color(0xffbdc3c7), Color(0xff2c3e50)],
+            colors: gradientSplash,
           ),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(assetLogo),
+            Animate(
+              effects: const [
+                ScaleEffect(
+                  delay: Duration(milliseconds: 200),
+                  duration: Duration(
+                    milliseconds: 400,
+                  ),
+                ),
+              ],
+              child: Image.asset(assetLogo),
+            ),
             FittedBox(
               child: AnimatedTextKit(
                 animatedTexts: [
                   TypewriterAnimatedText(
                     'Racha-Cuca',
                     textStyle: GoogleFonts.play(
-                      fontSize: 28,
+                      fontSize: 36,
                       color: Colors.white,
                     ),
-                    speed: const Duration(milliseconds: 50),
+                    speed: const Duration(milliseconds: 100),
                   ),
                 ],
                 totalRepeatCount: 1,
