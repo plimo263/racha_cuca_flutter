@@ -4,9 +4,11 @@ Este é um aplicativo usado para simular um jogo muito conhecido pelas crianças
 consiste em um tabuleiro 4 x 4 com 15 números que devem ser inseridos por sequência. Os números vão de 1 a 15
 sendo que o 16° espaço é vago para movimentar os números.
 
----
+## 🎨 Projeto Design
 
-### Como jogar ?
+## Para ver o design do projeto e ter uma visão geral de como ele funciona veja no [LINK DO FIGMA](https://www.figma.com/file/28CQYsZvVfRDabxCLQzLWE/Racha-Cuca?node-id=53795%3A27385&t=itDrIYUcKCnWZ60C-1)
+
+## 🎮 Como jogar ?
 
 Assim que abrir o App você será perguntado se deseja iniciar um jogo, as opções são:
 
@@ -22,9 +24,10 @@ Quando completado cada segundo restante será multiplicado por 10 dando assim a 
 
 ---
 
-### Como o jogo foi feito ?
+## 🤔 Como o jogo foi feito ?
 
 Ele foi totalmente desenvolvido em Dart/Flutter usando as seguintes libs de terceiros.
 
 - animated_text_kit
 - google_fonts
+- flutter_animate
