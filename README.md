@@ -13,9 +13,9 @@ sendo que o 16° espaço é vago para movimentar os números.
 Assim que abrir o App você será perguntado se deseja iniciar um jogo, as opções são:
 
 - jogo com limite de tempo: O usuário define um limite entre:
-  - facil: 5:00
-  - medio: 3:00
-  - dificil: 1:30
+  - facil: 7:00
+  - medio: 5:00
+  - dificil: 3:00
 
 Assim que uma das opções são escolhidas o jogo trata de sortear uma sequencia embaralhavel destes números e
 espera que o jogador acerte a sequência dentre 1 á 15 começando da esquerda para a direita.

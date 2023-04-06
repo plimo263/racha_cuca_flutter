@@ -2,8 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:racha_cuca_numeros/screens/home_screen.dart';
-
+import 'package:racha_cuca_numeros/constants/routes.dart';
 import '../constants/assets_const.dart';
 import '../theme/gradients.dart';
 
@@ -11,9 +10,8 @@ class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   Future<void> redirectToHome(BuildContext context) async {
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: ((inContext) => const HomeScreen())));
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.of(context).pushReplacementNamed(routeNameHome);
     });
   }
 
@@ -22,6 +20,7 @@ class SplashScreen extends StatelessWidget {
     redirectToHome(context);
     return Scaffold(
       body: Container(
+        width: double.maxFinite,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: AlignmentDirectional.topCenter,
@@ -44,11 +43,13 @@ class SplashScreen extends StatelessWidget {
               ],
               child: Image.asset(assetLogo),
             ),
+            const SizedBox(height: 16),
             FittedBox(
               child: AnimatedTextKit(
                 animatedTexts: [
                   TypewriterAnimatedText(
                     'Racha-Cuca',
+                    textAlign: TextAlign.center,
                     textStyle: GoogleFonts.play(
                       fontSize: 36,
                       color: Colors.white,
