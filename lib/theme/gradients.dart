@@ -8,3 +8,8 @@ const List<Color> gradientEasyLevel = [
 ];
 const List<Color> gradientNormalLevel = [Color(0xff373B44), Color(0xff4286f4)];
 const List<Color> gradientHardLevel = [Color(0xffC02425), Color(0xffF0CB35)];
+const List<Color> gradientGameOver = [Color(0xffFFAFBD), Color(0xffFFC3A0)];
+const List<Color> gradientCongratulations = [
+  Color(0xffFFEFBA),
+  Color(0xffFFFFFF)
+];

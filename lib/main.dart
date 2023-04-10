@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:racha_cuca_numeros/screens/congratulations_screen.dart';
 import 'package:racha_cuca_numeros/screens/difficulty_confirmation_screen.dart';
+import 'package:racha_cuca_numeros/screens/game_over_screen.dart';
 import 'package:racha_cuca_numeros/screens/game_screen.dart';
 import 'package:racha_cuca_numeros/screens/home_screen.dart';
 import 'package:racha_cuca_numeros/screens/splash_screen.dart';
@@ -38,9 +40,31 @@ class MeuApp extends StatelessWidget {
           case routeNameGame:
             int difficulty = args != null ? args as int : 0;
             return MaterialPageRoute(
-                builder: (context) => GameScreen(
-                      difficulty: difficulty,
-                    ));
+              builder: (context) => GameScreen(
+                difficulty: difficulty,
+              ),
+            );
+          case routeNameGameOver:
+            return MaterialPageRoute(
+              builder: ((context) => const GameOverScreen()),
+            );
+          case routeNameCongratulations:
+            late int secondsLeft;
+            late int difficultyLevel;
+            if (args != null && args is Map<String, int>) {
+              secondsLeft = args.containsKey('seconds') ? args['seconds']! : 0;
+              difficultyLevel =
+                  args.containsKey('difficulty') ? args['difficulty']! : 1;
+            } else {
+              secondsLeft = 0;
+              difficultyLevel = 1;
+            }
+
+            return MaterialPageRoute(
+                builder: ((context) => CongratulationsScreen(
+                      secondsLeft: secondsLeft,
+                      difficultyLevel: difficultyLevel,
+                    )));
           case routeNameSplash:
           default:
             return MaterialPageRoute(

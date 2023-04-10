@@ -31,3 +31,4 @@ Ele foi totalmente desenvolvido em Dart/Flutter usando as seguintes libs de terc
 - animated_text_kit
 - google_fonts
 - flutter_animate
+- screenshot

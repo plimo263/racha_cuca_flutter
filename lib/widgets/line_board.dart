@@ -36,11 +36,11 @@ class _ItemBoard extends StatelessWidget {
   final Function onTap;
   final Color color;
   const _ItemBoard({
-    super.key,
+    Key? key,
     required this.value,
     required this.onTap,
     required this.color,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

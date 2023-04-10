@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:racha_cuca_numeros/constants/assets_const.dart';
 import 'package:racha_cuca_numeros/constants/routes.dart';
@@ -126,21 +127,24 @@ class DifficultyConfirmationScreen extends StatelessWidget {
                       Expanded(
                         child: SizedBox(
                           width: double.maxFinite,
-                          child: ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).primaryColor,
-                              foregroundColor: Colors.white,
+                          child: Animate(
+                            onPlay: ((controller) => controller.repeat()),
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Theme.of(context).primaryColor,
+                                foregroundColor: Colors.white,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                  routeNameGame,
+                                  (route) => false,
+                                  arguments: difficulty,
+                                );
+                              },
+                              icon: const Icon(Icons.play_arrow),
+                              label: const Text(goGame),
                             ),
-                            onPressed: () {
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                routeNameGame,
-                                (route) => false,
-                                arguments: difficulty,
-                              );
-                            },
-                            icon: const Icon(Icons.play_arrow),
-                            label: const Text(goGame),
-                          ),
+                          ).shimmer(delay: const Duration(seconds: 3)),
                         ),
                       ),
                     ],

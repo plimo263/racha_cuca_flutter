@@ -5,9 +5,6 @@ import 'package:racha_cuca_numeros/constants/assets_const.dart';
 import 'package:racha_cuca_numeros/constants/routes.dart';
 import 'package:racha_cuca_numeros/constants/strings_const.dart';
 import 'package:racha_cuca_numeros/theme/gradients.dart';
-import 'package:racha_cuca_numeros/widgets/board.dart';
-
-import 'game_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -67,25 +64,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   assetLogo,
                   height: 173,
                 ),
-              ).animate().fade(
-                    delay: const Duration(milliseconds: 300),
-                    duration: const Duration(milliseconds: 300),
+              ).animate(onPlay: ((controller) => controller.repeat())).shimmer(
+                    delay: const Duration(milliseconds: 2000),
+                    duration: const Duration(milliseconds: 1500),
                   ),
               const SizedBox(height: 76),
               for (var optButton in options)
                 Animate(
-                  effects: [
-                    ScaleEffect(
-                      delay: Duration(
-                        milliseconds: optButton['level'] * 200,
-                      ),
-                    ),
-                  ],
                   child: ButtonLevel(
                     level: optButton['level'],
                     onPressed: optButton['onPressed'],
                     text: optButton['text'],
                   ),
+                ).shimmer(
+                  delay: Duration(milliseconds: optButton['level'] * 1000),
+                  duration: const Duration(milliseconds: 1000),
                 ),
             ],
           ),
@@ -119,8 +112,10 @@ class ButtonLevel extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: valuePadding),
       child: SizedBox(
         width: double.maxFinite,
-        child: OutlinedButton(
-          style: OutlinedButton.styleFrom(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Colors.white,
             padding: EdgeInsets.all(valuePadding),
             side: borderSide,
           ),

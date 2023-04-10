@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:racha_cuca_numeros/constants/routes.dart';
 import 'package:racha_cuca_numeros/utils/timer_utils.dart';
 import 'package:racha_cuca_numeros/widgets/board.dart';
 
@@ -33,6 +34,11 @@ class _GameScreenState extends State<GameScreen> {
     //
     timer = Timer.periodic(const Duration(seconds: 1), (t) {
       if (_start) {
+        if (_seconds == 0) {
+          // Possivelmente não conseguiu ganhar envia-lo para tela de derrota
+          Navigator.of(context).pushReplacementNamed(routeNameGameOver);
+          return;
+        }
         setState(() {
           if (_seconds > 0) {
             _seconds--;
@@ -53,25 +59,21 @@ class _GameScreenState extends State<GameScreen> {
   void alterPositionItem(Item item) {
     if (_start) {
       if (widget._boardModel.alterPosition(item)) {
-        setState(() {});
+        // Verifica se conseguiu ganhar o jogo
+        if (widget._boardModel.isSequenceValid()) {
+          Map<String, int> dataGamePoints = {
+            'seconds': _seconds,
+            'difficulty': widget.difficulty,
+          };
+          Navigator.of(context).pushReplacementNamed(
+            routeNameCongratulations,
+            arguments: dataGamePoints,
+          );
+        } else {
+          setState(() {});
+        }
       }
     }
-  }
-
-  // Obtem o estado do jogo
-  String getStateGame() {
-    String result = '';
-    if (widget._boardModel.isSequenceValid()) {
-      setState(() {
-        _start = false;
-      });
-      result = 'Correto parabéns para você';
-    } else if (_seconds == 0) {
-      result = 'Não foi desta vez, tente novamente';
-    } else {
-      result = '';
-    }
-    return result;
   }
 
   //
