@@ -1,6 +1,5 @@
 import 'item.dart';
 
-final _blankItem = Item('${Item.getLetter(15)}${15 + 1}', 15, true);
 // Sequencia inicial gerada no start da classe
 final _initSequence = List.generate(
   15,
@@ -8,17 +7,22 @@ final _initSequence = List.generate(
 ).toList();
 
 class BoardModel {
-  late List<Item> correctSequence = [..._initSequence, _blankItem];
-  late List<Item> listItems = [..._initSequence]..shuffle();
+  final List<Item> correctSequence = [
+    ..._initSequence,
+    Item('${Item.getLetter(15)}${15 + 1}', 15, true)
+  ];
+  late List<Item> listItems;
 
   BoardModel.reorderList() {
     final newItems = <Item>[];
-    for (int i = 0; i < listItems.length; i++) {
-      listItems[i].position = i;
-      newItems.add(listItems[i]);
+    final newReorderList = [..._initSequence]..shuffle();
+
+    for (int i = 0; i < newReorderList.length; i++) {
+      newReorderList[i].position = i;
+      newItems.add(newReorderList[i]);
     }
     // Adicionando o item branco
-    newItems.add(_blankItem);
+    newItems.add(Item('${Item.getLetter(15)}${15 + 1}', 15, true));
     listItems = newItems;
   }
 

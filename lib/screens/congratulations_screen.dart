@@ -22,31 +22,13 @@ class CongratulationsScreen extends StatelessWidget {
   });
 
   String getPoints() {
-    return (secondsLeft * 10 * difficultyLevel).toString();
+    return (secondsLeft * (10 * difficultyLevel)).toString();
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   title: Text(title),
-        //   actions: [
-        //     IconButton(
-        //       color: Colors.white,
-        //       onPressed: () {
-        //         // _screenshotController.capture().then((Uint8List? image) {
-        //         //   if (image != null) {
-
-        //         //   }
-        //         // });
-        //       },
-        //       icon: const Icon(
-        //         Icons.share,
-        //       ),
-        //     ),
-        //   ],
-        // ),
         body: Screenshot(
           controller: _screenshotController,
           child: Container(
